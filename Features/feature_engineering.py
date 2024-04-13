@@ -13,16 +13,6 @@ class TimeConversionHandler(BaseEstimator, TransformerMixin):
         X[self.feat_with_days] = np.abs(X[self.feat_with_days])
         return X
         
-class RetireeHandler(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        pass
-    def fit(self, df):
-        return self
-    def transform(self, df):
-        df_ret_idx = df['Employment length'][df['Employment length'] == 365243].index
-        df.loc[df_ret_idx,'Employment length'] = 0
-        return df
-        
 class SkewnessHandler(BaseEstimator, TransformerMixin):
     def __init__(self, feat_with_skewness):
         self.feat_with_skewness = feat_with_skewness
