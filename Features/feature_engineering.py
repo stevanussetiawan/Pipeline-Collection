@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
+from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, MinMaxScaler
 from sklearn.base import BaseEstimator, TransformerMixin
-from imblearn.over_sampling import SMOTE
 
 class TimeConversionHandler(BaseEstimator, TransformerMixin):
     def __init__(self, feat_days):
