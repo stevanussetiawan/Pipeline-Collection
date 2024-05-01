@@ -5,12 +5,12 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from imblearn.over_sampling import SMOTE
 
 class TimeConversionHandler(BaseEstimator, TransformerMixin):
-    def __init__(self, feat_with_days):
-        self.feat_with_days = feat_with_days
+    def __init__(self, feat_days):
+        self.feat_days = feat_days
     def fit(self, X, y=None):
         return self
     def transform(self, X, y=None):
-        X[self.feat_with_days] = np.abs(X[self.feat_with_days])
+        X[self.feat_days] = np.abs(X[self.feat_days])
         return X
         
 class SkewnessHandler(BaseEstimator, TransformerMixin):
