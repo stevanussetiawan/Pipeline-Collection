@@ -34,26 +34,35 @@ class modelMl:
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     def linear_regression_model_training_and_save(self):
-
+        # Create a pipeline that first applies preprocessing and then fits a linear regression model.
         linear_reg = Pipeline(steps=[
-                        ('preprocessor', self.preprocessor),
-                        ('linreg', LinearRegression())
-                    ])
+            ('preprocessor', self.preprocessor),  # Apply the preprocessing defined elsewhere in the class.
+            ('linreg', LinearRegression())        # Linear regression model to be trained.
+        ])
         
+        # Define the parameter grid for RandomizedSearchCV tuning.
         param_dist_lr = {
-            'linreg__fit_intercept': [True, False],
-            'linreg__normalize': [True, False],
-            'linreg__copy_X': [True, False]
+            'linreg__fit_intercept': [True, False],  # Whether to calculate the intercept for this model.
+            'linreg__normalize': [True, False],      # Whether to normalize the input variables before regression.
+            'linreg__copy_X': [True, False]          # Whether to copy the input X, or perform in-place modifications.
         }
         
-        linear_reg_random = RandomizedSearchCV(estimator=linear_reg,
-                                               param_distributions=param_dist_lr, 
-                                               scoring=self.mse_scorer, 
-                                               cv=3,
-                                               random_state=101)
+        # Set up RandomizedSearchCV with the pipeline, parameter grid, and other configurations.
+        linear_reg_random = RandomizedSearchCV(
+            estimator=linear_reg,
+            param_distributions=param_dist_lr,  # Hyperparameters to tune.
+            scoring=self.mse_scorer,            # Scoring method to use (mean squared error in this case).
+            cv=3,                               # Number of cross-validation folds.
+            random_state=101                    # Seed for reproducibility.
+        )
         
+        # Fit the RandomizedSearchCV to the training data to find the best model.
         linear_reg_random.fit(self.X_train, self.y_train)
+        
+        # Save the best estimator found by RandomizedSearchCV to a file.
         joblib.dump(linear_reg_random.best_estimator_, 'models/linear_regression_model.joblib')
+        
+        # Return the RandomizedSearchCV object (which includes the best estimator and other details).
         return linear_reg_random
     
     def elasticnet_regression_model_training_and_save(self):
