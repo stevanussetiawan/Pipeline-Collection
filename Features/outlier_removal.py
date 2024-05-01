@@ -1,6 +1,6 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 
-class OutlierRemover(BaseEstimator, TransformerMixin):
+class OutlierRemoverIQR(BaseEstimator, TransformerMixin):
     def __init__(self,feat_with_outliers):
         self.feat_with_outliers = feat_with_outliers
     def fit(self,df):
