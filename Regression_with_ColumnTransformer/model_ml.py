@@ -13,7 +13,7 @@ numerical_features = []
 categorical_features = []
 
 class modelMl:
-    def __init__(self, numeric_transformer, categorical_features, X, y):
+    def __init__(self, numerical_features, categorical_features, X, y):
         numeric_transformer = Pipeline(steps=[
             ('scaler', RobustScaler())
         ])
